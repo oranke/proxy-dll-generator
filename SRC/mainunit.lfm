@@ -1,0 +1,195 @@
+object MainForm: TMainForm
+  Left = 253
+  Height = 446
+  Top = 157
+  Width = 453
+  AllowDropFiles = True
+  Caption = 'PROXY DLL Generator'
+  ClientHeight = 446
+  ClientWidth = 453
+  Constraints.MinHeight = 195
+  Constraints.MinWidth = 345
+  OnDropFiles = FormDropFiles
+  Position = poScreenCenter
+  LCLVersion = '1.6.0.4'
+  object FuncsVST: TVirtualStringTree
+    Left = 9
+    Height = 346
+    Top = 72
+    Width = 434
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    DefaultNodeHeight = 22
+    DefaultText = 'Node'
+    Header.AutoSizeIndex = -1
+    Header.Columns = <    
+      item
+        Position = 0
+        Text = 'NO'
+        Width = 35
+      end    
+      item
+        Position = 1
+        Text = 'RVA'
+        Width = 75
+      end    
+      item
+        Position = 2
+        Text = 'ORD'
+        Width = 70
+      end    
+      item
+        Position = 3
+        Text = 'NAME'
+        Width = 230
+      end>
+    Header.Font.Color = clWindowText
+    Header.Font.Height = -11
+    Header.Font.Name = 'Tahoma'
+    Header.Height = 24
+    Header.Options = [hoColumnResize, hoDrag, hoShowSortGlyphs, hoVisible]
+    Header.Style = hsFlatButtons
+    TabOrder = 0
+    TreeOptions.MiscOptions = [toAcceptOLEDrop, toFullRepaintOnResize, toGridExtensions, toInitOnSave, toToggleOnDblClick, toWheelPanning]
+    TreeOptions.PaintOptions = [toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages]
+    TreeOptions.SelectionOptions = [toDisableDrawSelection, toExtendedFocus, toFullRowSelect]
+    OnGetText = FuncsVSTGetText
+  end
+  object CodeMemo: TMemo
+    Left = 40
+    Height = 177
+    Top = 144
+    Width = 193
+    Lines.Strings = (
+      'library %s;'
+      ''
+      'uses'
+      '  Windows;'
+      ''
+      'type'
+      '  TOrgFuncs = record'
+      '  case Integer of'
+      '    0: (Base: FARPROC;);'
+      '    1: (Arr: array [0..%d] of FARPROC;);'
+      '  end;'
+      ''
+      'const'
+      '  SIZE_OF_FUNC = SizeOf(FARPROC);'
+      ''
+      'var'
+      '  hl: HINST;'
+      '  OrgFuncs: TOrgFuncs;'
+      ''
+      'procedure __DLLProc(Reason: Integer);'
+      'begin'
+      '  case Reason of'
+      '    DLL_PROCESS_ATTACH:'
+      '    begin'
+      '      hl := LoadLibrary(''%s'');'
+      '      if hl = 0 then Exit;'
+      ''
+      '%s'
+      '    end;'
+      ''
+      '    DLL_PROCESS_DETACH:'
+      '    begin'
+      '      FreeLibrary(hl);'
+      '    end;'
+      '  end;'
+      'end;'
+      ''
+      '%s'
+      ''
+      '//-------- Exports'
+      'exports'
+      '%s'
+      ''
+      'begin'
+      '  DllProc := __DLLProc;'
+      '  __DLLProc(DLL_PROCESS_ATTACH);'
+      'end.'
+    )
+    ReadOnly = True
+    TabOrder = 1
+    Visible = False
+    WordWrap = False
+  end
+  object Label1: TLabel
+    Left = 9
+    Height = 12
+    Top = 16
+    Width = 70
+    Caption = 'Org DLL File'
+    ParentColor = False
+  end
+  object Label2: TLabel
+    Left = 8
+    Height = 12
+    Top = 43
+    Width = 90
+    Caption = 'Point DLL name'
+    ParentColor = False
+  end
+  object OrgDllFileNameEdit: TEdit
+    Left = 112
+    Height = 23
+    Top = 13
+    Width = 155
+    Anchors = [akTop, akLeft, akRight]
+    ReadOnly = True
+    TabOrder = 2
+  end
+  object OrgDllFileNameBtn: TButton
+    Left = 273
+    Height = 23
+    Top = 13
+    Width = 49
+    Anchors = [akTop, akRight]
+    Caption = '...'
+    OnClick = OrgDllFileNameBtnClick
+    TabOrder = 3
+  end
+  object PointDllNameEdit: TEdit
+    Left = 112
+    Height = 23
+    Top = 40
+    Width = 210
+    Anchors = [akTop, akLeft, akRight]
+    TabOrder = 4
+  end
+  object CodeGenButton: TButton
+    Left = 327
+    Height = 50
+    Top = 13
+    Width = 116
+    Anchors = [akTop, akRight]
+    Caption = 'Generate!!!'
+    OnClick = CodeGenButtonClick
+    TabOrder = 5
+  end
+  object Label3: TLabel
+    Cursor = crHandPoint
+    Left = 306
+    Height = 15
+    Top = 425
+    Width = 137
+    Anchors = [akRight, akBottom]
+    Caption = 'http://oranke.tistory.com'
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+    OnClick = Label3Click
+    OnMouseEnter = Label3MouseEnter
+    OnMouseLeave = Label3MouseLeave
+  end
+  object SaveDialog1: TSaveDialog
+    DefaultExt = '.*.pas'
+    Filter = 'Delphi project file|*.dpr|Lazarus project file|*.lpr|Pascal file|*.pas|All file|*.*'
+    left = 124
+    top = 380
+  end
+  object OpenDialog1: TOpenDialog
+    Filter = 'DLL File|*.DLL'
+    left = 52
+    top = 380
+  end
+end
