@@ -48,7 +48,7 @@ exports
 ......
 ```
 
-If you want hook the "AcceptEx" function, Let's change  **__E__73__()** procedure as follows.
+If you want hook the "AcceptEx" function, Let's change  **\_\_E__73__()** procedure as follows.
 
 ```Delphi
 // AcceptEx
