@@ -1,7 +1,7 @@
 # proxy-dll-generator
 ...for very simple API Hooking.
 
-![SShot](sshot-001.png)
+[![SShot](sshot-001.png)](./ProxyDllGen.zip)
 
 This creates a DLL project file for Delphi. It based on the lecture "[Create your Porxy DLLs automatically](http://www.codeproject.com/Articles/16541/Create-your-Proxy-DLLs-automatically )".
 
