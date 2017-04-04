@@ -3,4 +3,4 @@
 	url = https://github.com/dathox/generics.collections.git
 [submodule "LIB/pe-image-for-Lazarus"]
 	path = LIB/pe-image-for-Lazarus
-	url = https://github.com/oranke/pe-image-for-Lazarus.git	
+	url = https://github.com/oranke/pe-image-for-Lazarus.git
